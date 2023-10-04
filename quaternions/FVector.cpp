@@ -1,5 +1,7 @@
-#include "quaternion.h"
 #include <iostream>
+#include "FVector.h"
+#include "Quaternion.h"
+#include "QRotation.h"
 
 FVector::FVector(istream& is) {
   char c;
@@ -23,11 +25,11 @@ void FVector::write(ostream& os) const {
 
 
 FVector FVector::rotateBy(const QRotation &Rot) const {
-  const quaternion r=Rot;
-  return r*quaternion(0.0f, *this)*(Rot.inverse());
+  const Quaternion r=Rot;
+  return r*Quaternion(0.0f, *this)*(Rot.inverse());
 }
 FVector FVector::rotateBackBy(const QRotation &Rot) const {
-  return (Rot.inverse())*(quaternion(0.0f, *this))*Rot;
+  return (Rot.inverse())*(Quaternion(0.0f, *this))*Rot;
 }
 FVector FVector::anyOrthogonal() const {
   float xx = abs(x);

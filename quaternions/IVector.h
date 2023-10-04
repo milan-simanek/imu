@@ -29,9 +29,9 @@ class IVector {
         FVector operator/(float a) const { return (*this)*(1/a); }
         
         FVector operator*(const FVector &s) { return FVector(x*s.x, y*s.y, z*s.z); }
-        
+        virtual void write(ostream& os) const;
 };
 
 static inline FVector operator/(float a, const IVector& v) { return FVector(a/v.x, a/v.y, a/v.z); }
-
+static inline ostream& operator<<(ostream& os, const IVector &v) { v.write(os); return os; }
 #endif

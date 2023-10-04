@@ -44,8 +44,6 @@ class FVector {
         inline FVector inverse() const { return FVector(-x,-y,-z); }
         FVector& selfInverse() { x=-x; y=-y; z=-z; return *this; }
         FVector anyOrthogonal() const;
-        virtual void print(const char *msg="") const;
-        virtual void print(ostream& os, const char *msg="") const;
         virtual void write(ostream& os) const;
 };
 

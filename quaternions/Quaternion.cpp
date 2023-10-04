@@ -17,5 +17,5 @@ Quaternion& Quaternion::normalize() {
 }
 
 float Quaternion::dotProduct(const Quaternion& q) const {
-    return (r*q.r) + QVector::dotProduct(q);
+    return (r*q.r) + FVector::dotProduct(q);
 }
