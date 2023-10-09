@@ -2,6 +2,10 @@
 
 using namespace std;
 
+Quaternion::Quaternion(istream &is) : FVector(is.ignore(256,'{')) {
+  is >> r;
+  is.ignore(256, '}');
+}
 Quaternion Quaternion::operator*(const Quaternion& q) const { // Hamilton product
     return Quaternion(
       (q.r * r) - (q.x * x) - (q.y * y) - (q.z * z),
@@ -18,4 +22,10 @@ Quaternion& Quaternion::normalize() {
 
 float Quaternion::dotProduct(const Quaternion& q) const {
     return (r*q.r) + FVector::dotProduct(q);
+}
+
+void Quaternion::write(ostream& os) const {
+  os << '{';
+  FVector::write(os);
+  os << ' ' << r << '}';
 }
