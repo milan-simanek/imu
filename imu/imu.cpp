@@ -16,7 +16,7 @@ void IMU::calculate() {
   /* G-correction */
   FVector g=md.accel;			// detected G-direction in sensor coordinates
   FVector g0 = G0.rotateBy(R);		// required G-direction in sensor coordinates
-  QRotation gCorrection(g0,g);		// correction rotation in sensor coordinates
+  QRotation gCorrection(g,g0);		// correction rotation in sensor coordinates
   gCorrection=gCorrection*correctionG;	// influence level
   if (enGCor) R=gCorrection*R;		// apply
 
@@ -24,9 +24,9 @@ void IMU::calculate() {
   FVector m=md.mag;			// detected magnetic vector in sensor coordinates
   FVector m0 = M0.rotateBy(R);		// required magnetic field direction in sensor coordinates
   m=g0.crossProduct(m).crossProduct(g0);// projection onto the horizontal plane
-  QRotation mCorrection(m0, m);		// korekcni rotace v soustave sensoru
-  mCorrection=mCorrection*correctionM;	// omezeni vlivu
-  if (enMCor) R=mCorrection*R;		// aplikace korekce
+  QRotation mCorrection(m, m0);		// correction rotation in sensor coordinates
+  mCorrection=mCorrection*correctionM;	// influence level
+  if (enMCor) R=mCorrection*R;		// apply
 
   lastDataSeq=md.seq;
     

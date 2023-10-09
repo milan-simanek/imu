@@ -1,22 +1,21 @@
 #include "QRotation.h"
 
 QRotation::QRotation(const FVector& v1, const FVector& v2) : QRotation() {
-  float an=v1.norm();
-  if (an==0.0f) return;
-  FVector a=v1.mkUnitVector();
-  float bn=v2.norm();
-  if (bn==0.0f) return;
-  FVector b=v2.mkUnitVector();
-  FVector half=a; half+=b; half/=2.0f;
-//  float n=half.norm();
-//  if (n<0.00001f) {
-if (0) {
-    *this=Quaternion(0.0f, a.anyOrthogonal().mkUnitVector());
-  } else {
-    *this=Quaternion(0.0f, a)*Quaternion(0.0f, half.mkUnitVector());
-    r=-r;
-    // from definition: Quaternion(dot(u, half), cross(u, half));
-  }
+  /* For any NORMALIZED v1 and v2: Q(dot(v1,v2), cross(v1,v2)) results in DOUBLE rotation
+       result2=Q(dot(v1.normalize(),v2.normalize()), cross(v1.normalize(),v2.normalize()))
+     The real rotation is half-way between double-rotation and zero-rotation rot0=Q(1,0,0,0)
+       (both doble-rotation and zero-rotation have to be normalized and the result has to be normalized)
+       result=Q(dot(v1.normalize(),v2.normalize())+1, cross(v1.normalize(),v2.normalize())).normalize();
+     Optimization 1: instead of normalizing v1 and v2, we can calculate products scaled by factor k=|v1|*|v2|
+       result=Q(dot(v1,v2)+|v1|*|v2|, cross(v1,v2)).normalize();
+     Optimization 2: instead of |v1|*|v2|=sqrt(v1.v1)*sqrt(v2.v2) we can calculate |v1|*|v2|=sqrt(v1.v1 * v2.v2)
+  */
+  float k=sqrtf(v1.norm2()*v2.norm2());
+  float k_cos_theta=v1.dotProduct(v2);
+  if (k_cos_theta/k == -1)
+    *this=Quaternion(0, v1.anyOrthogonal().mkUnitVector());
+  else
+    *this=Quaternion(k_cos_theta+k, v1.crossProduct(v2)).normalize();
 }
 
 // create a rotation by 3 small angles clockwise in the direction of the axis
