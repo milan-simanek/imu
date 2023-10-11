@@ -12,6 +12,7 @@ class FVector {
     public:
         float x,y,z;
         FVector() : x(0.0f), y(0.0f), z(0.0f) { }
+        FVector(float f) : x(f), y(f), z(f) { }
         FVector(float vx, float vy, float vz) : x(vx), y(vy), z(vz) { }
         FVector(const FVector &v) : x(v.x), y(v.y), z(v.z) { }
         FVector(istream &is);
@@ -25,11 +26,14 @@ class FVector {
         FVector operator-(const FVector& v) const { return FVector(x-v.x, y-v.y, z-v.z); }
         FVector& operator-=(const FVector& v) {x-=v.x; y-=v.y; z-=v.z; return *this; }
         
-        FVector operator*(float s) const { return FVector(x*s, y*s, z*s); }
-        FVector operator*(FVector v) const { return FVector(x*v.x, y*v.y, z*v.z); }
-        virtual FVector& operator*=(float s) { x*=s; y*=s; z*=s; return *this; }
-        FVector operator/(float a) const { return (*this)*(1/a); }
-        FVector& operator/=(float a)     { return (*this)*=(1/a); }
+        FVector operator*(float s) const 		{ return FVector(x*s, y*s, z*s); }
+        FVector operator*(const FVector &v) const 	{ return FVector(x*v.x, y*v.y, z*v.z); }
+        virtual FVector& operator*=(float s)		{ x*=s; y*=s; z*=s; return *this; }
+        FVector operator/(float a) const 		{ return (*this)*(1/a); }
+        FVector operator/(const FVector &v) const	{ return FVector(x/v.x, y/v.y, z/v.z); }
+        FVector& operator/=(float a)     		{ return (*this)*=(1/a); }
+        FVector& operator/=(const FVector &v)     	{ x/=v.x; y/=v.y; z/=v.z; return *this; }
+
         
         void raiseUp(const FVector& v)   { if (x<v.x) x=v.x; if (y<v.y) y=v.y; if (z<v.z) z=v.z; }
         void raiseDown(const FVector& v) { if (x>v.x) x=v.x; if (y>v.y) y=v.y; if (z>v.z) z=v.z; }
