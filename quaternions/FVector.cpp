@@ -4,17 +4,20 @@
 #include "QRotation.h"
 
 FVector::FVector(istream& is) {
-  char c;
   while (is.good()) {
-    is >> c; if (std::isspace(c)) continue;
-    if (c!='(') break;
-    if (is >> x) if (is >> y) if (is >> z) return;
+    is.ignore(256, '[');
+    if (is >> x)
+    if (is.ignore(256, ',') >> y)
+    if (is.ignore(256, ',') >> z) {
+      is.ignore(256, ']');
+      return;
+    }
     break;
   }
-  cerr << "Error reading FVector";
+  cerr << "Error reading FVector:" << x << "," << y << "," << z << endl;;
 }
 FVector FVector::crossProduct(const FVector& v) const {
-  return FVector(     
+  return FVector(
       (y*v.z) - (z*v.y),
       (z*v.x) - (x*v.z),
       (x*v.y) - (y*v.x));
@@ -35,7 +38,7 @@ FVector FVector::anyOrthogonal() const {
   float xx = abs(x);
   float yy = abs(y);
   float zz = abs(z);
-  FVector other = xx < zz ? (xx < yy ? FVector(1.0f, 0.0f, 0.0f) 
+  FVector other = xx < zz ? (xx < yy ? FVector(1.0f, 0.0f, 0.0f)
                                      : FVector(0.0f, 1.0f, 0.0f))
                           : (yy < zz ? FVector(0.0f, 1.0f, 0.0f)
                                      : FVector(0.0f, 0.0f, 1.0f));
