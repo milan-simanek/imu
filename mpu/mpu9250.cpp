@@ -168,7 +168,7 @@ uint8_t Mpu9250::readAKid()  { return readAKRegister(REGAK::WIA); }             
 
 void Mpu9250::setAccelRangeNL(AccelRange range) {
   writeRegister(REGMPU::ACCEL_CONFIG, range<<BIT_ACCEL_FS_SEL);
-  rangeScaleAccel = G0/(32768>>range);
+  rangeScaleAccel = G0/(16384>>range);
 }
 void Mpu9250::setGyroRangeNL(GyroRange range) {
   const float factor=M_PI/180*250;
