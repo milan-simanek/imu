@@ -41,7 +41,7 @@ struct MpuData {	// data structure to hold the result of MPU measurement
 
 class Mpu {
   public:
-    const float G0=9.80665f;	// average gravity on Earth
+    static constexpr float G0=9.80665f;		// average gravity on Earth
     // total magnetic field on Earth: 25-65 μT
     //    Czech Republic: magnetic inclination +65° (total 43μT = 20μT horizontally + 27μT vertically)
     
@@ -66,6 +66,10 @@ class Mpu {
     void resetCaliData();    			// reset calibration to transparent values (Scale=1.0, Bias=0.0)
     void readCaliData(istream &is);
     void writeCaliData(ostream &os);
+    
+    void compensateAccel(const FVector &bias, const FVector &scale);
+    void compensateGyro(const FVector &bias, const FVector &scale);
+    void compensateMag(const FVector &bias, const FVector &scale);
 
     /* methods for MPU data consumers */
     unsigned getLastDataSeq();			// the last data sequence number available

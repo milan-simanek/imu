@@ -23,6 +23,7 @@
 #include "mpu9250.h"
 #include "imu.h"
 #include "sender.h"
+#include "cali-simple.h"
 
 using namespace std;
 
@@ -69,11 +70,25 @@ void App::interactive() {
     if (kstate=='c') {
       kstate=0;
       switch (c) {
+      case 'a': { CaliAccelSimple cali(&mpu);
+                  cali.calibrate();
+                }
+                break;
+      case 'g': { CaliGyroSimple cali(&mpu);
+                  cali.calibrate();
+                }
+                break;
+      case 'm': { CaliMagSimple cali(&mpu);
+                  cali.calibrate();
+                }
+                break;
       case '.': cout << "storing calibration data" << endl;
                 saveCali();
                 break;
       case '-': cout << "loading calibration data" << endl;
                 loadCali();
+                break;
+      case '?': mpu.writeCaliData(cout);
                 break;
       }
       continue;

@@ -55,6 +55,19 @@ void Mpu::writeCaliData(ostream &os) {
   os << "MB " << caliBiasMag << endl;
 }
 
+void Mpu::compensateAccel(const FVector &bias, const FVector &scale) {
+  caliBiasAccel+=bias/scale;
+  caliScaleAccel/=scale;
+}
+void Mpu::compensateGyro(const FVector &bias, const FVector &scale) {
+  caliBiasGyro+=bias/scale;
+  caliScaleGyro/=scale;
+}
+void Mpu::compensateMag(const FVector &bias, const FVector &scale) {
+  caliBiasMag+=bias/scale;
+  caliScaleMag/=scale;
+}
+
 unsigned Mpu::getLastDataSeq() {
   return data.seq;	// need not to lock; worst case: if seq changes during copying then it is recognized as different
 }

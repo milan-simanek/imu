@@ -1,4 +1,4 @@
-MODS=IVector FVector Quaternion QRotation mpu mpu9250 i2c imu sender app
+MODS=IVector FVector Quaternion QRotation mpu mpu9250 i2c imu sender app cali-simple
 DEPDIRS=../../imu ../../mpu ../../quaternions
 
 OBJS=$(patsubst %,%.o,$(MODS))
