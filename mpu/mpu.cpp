@@ -47,12 +47,12 @@ void Mpu::readCaliData(istream &is) {
 
 void Mpu::writeCaliData(ostream &os) {
   unique_lock<mutex> Lock(mtx);
-  os << "AS" << caliScaleAccel << endl;
-  os << "AB" << caliBiasAccel << endl;
-  os << "GS" << caliScaleGyro << endl;
-  os << "GB" << caliBiasGyro << endl;
-  os << "MS" << caliScaleMag << endl;
-  os << "MB" << caliBiasMag << endl;
+  os << "AS " << caliScaleAccel << endl;
+  os << "AB " << caliBiasAccel << endl;
+  os << "GS " << caliScaleGyro << endl;
+  os << "GB " << caliBiasGyro << endl;
+  os << "MS " << caliScaleMag << endl;
+  os << "MB " << caliBiasMag << endl;
 }
 
 unsigned Mpu::getLastDataSeq() {
